@@ -19,11 +19,11 @@ PRIVATE_CAR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'p
 MILITARY_LAW_ENFORCEMENT_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'military_law_1.png'),
                                            os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'military_law_2.jpeg')]
 
-GAS_OPERATOR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'gas_operator_1.jpg')]
+GAS_OPERATOR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'gas_operator_1.jpg'),
+                               os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'gas_operator_2.png')]
 
 PUBLIC_TRANSPORTATION_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_1.png'),
-                                        os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_2.jpg')
-                                        ]
+                                        os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_2.jpg')]
 
 PROHIBITED_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'prohibited_plate_1.png')]
 
