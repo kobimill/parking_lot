@@ -1,5 +1,5 @@
 import os
-from cars_license_plates_db import DB
+from parking_lot_db import DB
 import parking_lot
 import unittest
 
@@ -7,6 +7,7 @@ EXAMPLE_LICENSE_PLATES_IMAGES_DIR = os.path.join(os.path.dirname(__file__), 'exa
 
 INVALID_IMAGE_FILE = 'not_exist_image.jpg'
 INVALID_IMAGE_URL = 'http://not_exist_image.jpg'
+
 NON_LICENSE_PLATE = 'https://i.ytimg.com/vi/4riem49Yjus/maxresdefault.jpg'
 
 PRIVATE_CAR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'private_1.png'),

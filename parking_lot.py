@@ -5,7 +5,7 @@ decision whether the vehicle may enter a parking lot or not.
 import re
 import argparse
 import ocr_api
-import cars_license_plates_db
+import parking_lot_db
 
 PRIVATE_VEHICLE_TYPE = 'private'
 GAS_OPERATOR_VEHICLE_TYPE = 'gas_operator'
@@ -62,7 +62,7 @@ def check_plate_number(plate_number, test_mode=False):
     elif not prohibited_vehicle(plate_number, last_two_chars):
         prohibited = False
 
-    cars_db = cars_license_plates_db.DB(test=test_mode)
+    cars_db = parking_lot_db.DB(test=test_mode)
     cars_db.add_row(plate_number, car_type, int(prohibited))
 
     return prohibited, car_type
@@ -118,7 +118,7 @@ def process_licence_plate(car_license_plate_image, test_mode=False):
 
 
 def show_db_records_info(test_mode=False):
-    cars_db = cars_license_plates_db.DB(test_mode)
+    cars_db = parking_lot_db.DB(test_mode)
     records = cars_db.get_records()
     for i in records:
         print(i)
@@ -132,7 +132,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     if args.image:
-        process_licence_plate(args.image, args.test)
+        try:
+            prohibited, car_type = process_licence_plate(args.image, args.test)
+            print(f"Car-Type: {car_type}, Prohibited: {prohibited}")
+        except Exception as e:
+            print(f"Failed processing image '{args.image}', Exception: {e}")
+            exit(1)
 
     if args.show:
         show_db_records_info(args.test)

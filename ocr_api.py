@@ -13,7 +13,7 @@ def ocr_space(filename_or_url, overlay=False, language='eng'):
     :param language: Language code to be used in OCR.
                     List of available language codes can be found on https://ocr.space/OCRAPI
                     Defaults to 'en'.
-    :return: Result in JSON format.
+    :return: <dict> converted from JSON format.
     """
     payload = {'isOverlayRequired': overlay,
                'apikey': API_KEY,
