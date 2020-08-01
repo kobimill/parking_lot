@@ -62,10 +62,22 @@ class DB:
         c.execute(insert_cmd)
         sql_con.commit()
 
-    def show_rows(self):
+    def get_records(self):
         sql_con = self.create_connection()
         c = sql_con.cursor()
         c.execute(SELECT_ALL_QUERY.format(table=self.table_name))
+        column_names = ', '.join([i[0] for i in c.description])
+        rows_info = [column_names]
         for i in c.fetchall():
-            print(i)
+            '''
+            Converting row tuple to str-line:
+            i.e:
+            (12, '3204525', 'public_transportation', 1, '2020-08-01 12:36:03')
+            -->
+            '12, 3204525, public_transportation, 1, 2020-08-01 12:36:03'
+            '''
+            row_line = ', '.join(map(str, i))
+            rows_info.append(row_line)
+
         c.close()
+        return rows_info

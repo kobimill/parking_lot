@@ -1,21 +1,25 @@
+import os
 from cars_license_plates_db import DB
 import parking_lot
 import unittest
+
+EXAMPLE_LICENSE_PLATES_IMAGES_DIR = os.path.join(os.path.dirname(__file__), 'example_license_plates_images')
 
 INVALID_IMAGE_FILE = 'not_exist_image.jpg'
 INVALID_IMAGE_URL = 'http://not_exist_image.jpg'
 NON_LICENSE_PLATE = 'https://i.ytimg.com/vi/4riem49Yjus/maxresdefault.jpg'
 
-PRIVATE_CAR_LICENSE_PLATES = []
+PRIVATE_CAR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'private_1.jpg'),
+                              os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'private_2.jpg')]
 
-MILITARY_LAW_ENFORCEMENT_LICENSE_PLATES = ['https://sfilev2.f-static.com/image/users/801709/detail/big/6596362-1566.jpg',
-                                           'https://sfilev2.f-static.com/image/users/801709/detail/big/6596361-1533.jpg']
+MILITARY_LAW_ENFORCEMENT_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'military_law_1.jpeg'),
+                                           os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'military_law_2.jpeg')]
 
-GAS_OPERATOR_LICENSE_PLATES = ['https://a7.org/pictures/780/780289.jpg']
+GAS_OPERATOR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'gas_operator_1.jpg')]
 
-PUBLIC_TRANSPORTATION_LICENSE_PLATES = []
+PUBLIC_TRANSPORTATION_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_1.jpg')]
 
-PROHIBITED_LICENSE_PLATES = ['https://f7k6f9k9.ssl.hwcdn.net//mediaCached/976759/976764/480357/8210221531_a1b37182fc_k.jpg']
+PROHIBITED_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'prohibited_plate_1.jpg')]
 
 
 class TestParkingLot(unittest.TestCase):
@@ -44,34 +48,34 @@ class TestParkingLot(unittest.TestCase):
         with self.assertRaises(Exception):
             parking_lot.process_licence_plate(NON_LICENSE_PLATE, self.TEST_MODE)
 
-    # def test_private_license_plates(self):
-    #     for item in PROHIBITED_LICENSE_PLATES:
-    #         prohibited, car_type = parking_lot.process_licence_plate(item, self.TEST_MODE)
-    #         self.assertTrue(prohibited)
-    #         self.assertEqual(car_type, parking_lot.PRIVATE_VEHICLE_TYPE)
-
-    def test_gas_operator_license_plates(self):
-        for item in GAS_OPERATOR_LICENSE_PLATES:
+    def test_private_license_plates(self):
+        for item in PRIVATE_CAR_LICENSE_PLATES:
             prohibited, car_type = parking_lot.process_licence_plate(item, self.TEST_MODE)
             self.assertFalse(prohibited)
-            self.assertEqual(car_type, parking_lot.GAS_OPERATOR_VEHICLE_TYPE)
-
-    # def test_public_transportation_license_plates(self):
-    #     for item in GAS_OPERATOR_LICENSE_PLATES:
-    #         prohibited, car_type = parking_lot.process_licence_plate(item, self.TEST_MODE)
-    #         self.assertFalse(prohibited)
-    #         self.assertEqual(car_type, parking_lot.PUBLIC_TRANSPORTATION_VEHICLE_TYPE)
+            self.assertEqual(car_type, parking_lot.PRIVATE_VEHICLE_TYPE)
 
     def test_military_law_enforcement_license_plates(self):
         for item in MILITARY_LAW_ENFORCEMENT_LICENSE_PLATES:
             prohibited, car_type = parking_lot.process_licence_plate(item, self.TEST_MODE)
-            self.assertFalse(prohibited)
+            self.assertTrue(prohibited)
             self.assertEqual(car_type, parking_lot.MILITARY_LAW_VEHICLE_TYPE)
+
+    def test_gas_operator_license_plates(self):
+        for item in GAS_OPERATOR_LICENSE_PLATES:
+            prohibited, car_type = parking_lot.process_licence_plate(item, self.TEST_MODE)
+            self.assertTrue(prohibited)
+            self.assertEqual(car_type, parking_lot.GAS_OPERATOR_VEHICLE_TYPE)
+
+    def test_public_transportation_license_plates(self):
+        for item in PUBLIC_TRANSPORTATION_LICENSE_PLATES:
+            prohibited, car_type = parking_lot.process_licence_plate(item, self.TEST_MODE)
+            self.assertTrue(prohibited)
+            self.assertEqual(car_type, parking_lot.PUBLIC_TRANSPORTATION_VEHICLE_TYPE)
 
     def test_prohibited_license_plates(self):
         for item in PROHIBITED_LICENSE_PLATES:
             prohibited, car_type = parking_lot.process_licence_plate(item, self.TEST_MODE)
-            self.assertFalse(prohibited)
+            self.assertTrue(prohibited)
             self.assertEqual(car_type, parking_lot.PRIVATE_VEHICLE_TYPE)
 
 
