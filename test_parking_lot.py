@@ -3,23 +3,23 @@ from cars_license_plates_db import DB
 import parking_lot
 import unittest
 
-EXAMPLE_LICENSE_PLATES_IMAGES_DIR = os.path.join(os.path.dirname(__file__), 'example_license_plates_images')
+EXAMPLE_LICENSE_PLATES_IMAGES_DIR = os.path.join(os.path.dirname(__file__), 'example_images')
 
 INVALID_IMAGE_FILE = 'not_exist_image.jpg'
 INVALID_IMAGE_URL = 'http://not_exist_image.jpg'
 NON_LICENSE_PLATE = 'https://i.ytimg.com/vi/4riem49Yjus/maxresdefault.jpg'
 
-PRIVATE_CAR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'private_1.jpg'),
+PRIVATE_CAR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'private_1.png'),
                               os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'private_2.jpg')]
 
-MILITARY_LAW_ENFORCEMENT_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'military_law_1.jpeg'),
+MILITARY_LAW_ENFORCEMENT_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'military_law_1.png'),
                                            os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'military_law_2.jpeg')]
 
 GAS_OPERATOR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'gas_operator_1.jpg')]
 
-PUBLIC_TRANSPORTATION_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_1.jpg')]
+PUBLIC_TRANSPORTATION_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_1.png')]
 
-PROHIBITED_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'prohibited_plate_1.jpg')]
+PROHIBITED_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'prohibited_plate_1.png')]
 
 
 class TestParkingLot(unittest.TestCase):
@@ -33,7 +33,6 @@ class TestParkingLot(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.db.show_rows()
         cls.db.drop_table()
 
     def test_invalid_image_file(self):
