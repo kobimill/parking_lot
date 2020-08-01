@@ -7,8 +7,11 @@ EXAMPLE_LICENSE_PLATES_IMAGES_DIR = os.path.join(os.path.dirname(__file__), 'exa
 
 INVALID_IMAGE_FILE = 'not_exist_image.jpg'
 INVALID_IMAGE_URL = 'http://not_exist_image.jpg'
-
+NON_IMAGE_FILE = os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'not_image_file.docx')
 NON_LICENSE_PLATE = 'https://i.ytimg.com/vi/4riem49Yjus/maxresdefault.jpg'
+NOT_RECOGNIZED_IMAGE = os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'bad_quality_image.jpeg')
+
+INVALID = [INVALID_IMAGE_FILE, INVALID_IMAGE_URL, NON_IMAGE_FILE, NON_LICENSE_PLATE, NOT_RECOGNIZED_IMAGE]
 
 PRIVATE_CAR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'private_1.png'),
                               os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'private_2.jpg')]
@@ -18,7 +21,9 @@ MILITARY_LAW_ENFORCEMENT_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_I
 
 GAS_OPERATOR_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'gas_operator_1.jpg')]
 
-PUBLIC_TRANSPORTATION_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_1.png')]
+PUBLIC_TRANSPORTATION_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_1.png'),
+                                        os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'public_2.jpg')
+                                        ]
 
 PROHIBITED_LICENSE_PLATES = [os.path.join(EXAMPLE_LICENSE_PLATES_IMAGES_DIR, 'prohibited_plate_1.png')]
 
@@ -36,17 +41,10 @@ class TestParkingLot(unittest.TestCase):
     def tearDownClass(cls):
         cls.db.drop_table()
 
-    def test_invalid_image_file(self):
-        with self.assertRaises(Exception):
-            parking_lot.process_licence_plate(INVALID_IMAGE_FILE, self.TEST_MODE)
-
-    def test_invalid_image_url(self):
-        with self.assertRaises(Exception):
-            parking_lot.process_licence_plate(INVALID_IMAGE_URL, self.TEST_MODE)
-
-    def test_non_license_plates(self):
-        with self.assertRaises(Exception):
-            parking_lot.process_licence_plate(NON_LICENSE_PLATE, self.TEST_MODE)
+    def test_invalid(self):
+        for item in INVALID:
+            with self.assertRaises(Exception):
+                parking_lot.process_licence_plate(item, self.TEST_MODE)
 
     def test_private_license_plates(self):
         for item in PRIVATE_CAR_LICENSE_PLATES:

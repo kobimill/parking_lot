@@ -1,3 +1,7 @@
+"""
+This is public API which able to detect text from images
+Source: https://ocr.space/ocrapi
+"""
 import os
 import json
 import requests

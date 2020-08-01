@@ -1,13 +1,14 @@
-# === Parking-lot tool ==
+# Parking-lot-tool
+# Author: Kobi Millshtein
+# Date: 2020-07-30
 
 # OCR-API:
-In order to use the ocr_api - please make sure you have valid 'API_KEY'
+Please make sure you have valid key
+Go to ocr_api.py and update 'API_KEY' variable.
 
 Sample usage:
 
-# The following command adds record to the DB 
-#(in case the image contains valid plate-number)
-
+# The following command adds record to the DB (in case the image contains valid plate-number)
 python parking_lot.py -i <IMAGE-FILE-URL-PATH>
 
 # In order to get the db-records run as following:
