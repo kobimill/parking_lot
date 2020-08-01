@@ -1,9 +1,24 @@
+import os
+import platform
 import sqlite3
 from sqlite3 import Error
 from datetime import datetime
 
-SQL_DB_FILE = r"C:\sqlite\sqlite.db"
-TEST_SQL_DB_FILE = r"C:\sqlite\test_sqlite.db"
+"""
+Supporting both Windows & Linux OS
+"""
+if platform.system() == 'Windows':
+    SQL_DB_ROOT_DIR = r"C:\parking_lot_db"
+else:  # Linux
+    SQL_DB_ROOT_DIR = os.path.join(os.getenv('HOME'), 'parking_lot_db')  # i.e: /home/user/parking_lot_db
+
+if not os.path.isdir(SQL_DB_ROOT_DIR):
+    os.mkdir(SQL_DB_ROOT_DIR)
+
+SQL_DB_FILE_NAME = "parking_lot_sqlite.db"
+TEST_SQL_DB_FILE_NAME = 'test_' + SQL_DB_FILE_NAME
+SQL_DB_FILE = os.path.join(SQL_DB_ROOT_DIR, SQL_DB_FILE_NAME)
+TEST_SQL_DB_FILE = os.path.join(SQL_DB_ROOT_DIR, TEST_SQL_DB_FILE_NAME)
 
 SQL_CREATE_TABLE = """ CREATE TABLE IF NOT EXISTS {table} (
                                     id integer PRIMARY KEY,
@@ -21,7 +36,7 @@ SELECT_ALL_QUERY = "SELECT * FROM {table}"
 
 class DB:
     def __init__(self, test=False):
-        self.table_name = 'cars_license_plates'
+        self.table_name = 'parking_lot'
         self.sql_db_file = TEST_SQL_DB_FILE if test else SQL_DB_FILE
         self.create_table()
 
