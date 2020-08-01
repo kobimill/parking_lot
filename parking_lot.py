@@ -28,15 +28,13 @@ def prohibited_vehicle(plate_number, last_2_digits):
     7 digits numbers which their two last digits are 85/86/87/88/89/00, are
     also prohibited.
     '''
-    num_digits = len(plate_number.split())
-    if num_digits != 7:
-        return False
-    return last_2_digits in PROHIBITED_LAST_2_DIGITS
+    num_digits = len(plate_number)
+    return num_digits == 7 and last_2_digits in PROHIBITED_LAST_2_DIGITS
 
 
 def check_plate_number(plate_number, test_mode=False):
     car_type = PRIVATE_VEHICLE_TYPE
-    prohibited = False
+    prohibited = True
 
     last_two_chars = plate_number[-2:]
 
@@ -62,7 +60,7 @@ def check_plate_number(plate_number, test_mode=False):
         car_type = GAS_OPERATOR_VEHICLE_TYPE
 
     elif not prohibited_vehicle(plate_number, last_two_chars):
-        prohibited = True
+        prohibited = False
 
     cars_db = cars_license_plates_db.DB(test=test_mode)
     cars_db.add_row(plate_number, car_type, int(prohibited))
@@ -82,8 +80,7 @@ def process_licence_plate(car_license_plate_image, test_mode=False):
     is_error_processing = image_results['IsErroredOnProcessing']
     if is_error_processing:
         error = image_results['ErrorMessage'][0]
-        print(error)
-        exit(1)
+        raise Exception(error)
 
     parsed_results = image_results['ParsedResults'][0]
     parsed_text = parsed_results['ParsedText']
@@ -100,13 +97,16 @@ def process_licence_plate(car_license_plate_image, test_mode=False):
     if not parsed_text_lines_list:
         raise Exception("Warning! not found text in given image!")
 
-    # Checking if plate-number exist:
+    # Extract plate-number from text:
     plate_number = None
     for i in parsed_text_lines_list:
-        if i.isalpha() or len(i) < 5 or len(i) > 8:  # Contains letters chars only
+        if i.isalpha():  # Contains letters chars only
             continue
 
         # Valid israeli license-plate
+        if len(i) < 5 or len(i) > 8:
+            continue
+
         if i.isalnum() or i.isdigit():
             plate_number = i
             break
@@ -117,15 +117,17 @@ def process_licence_plate(car_license_plate_image, test_mode=False):
     return check_plate_number(plate_number, test_mode)
 
 
-def show_cars_info(test_mode=False):
+def show_db_records_info(test_mode=False):
     cars_db = cars_license_plates_db.DB(test_mode)
-    cars_db.show_rows()
+    records = cars_db.get_records()
+    for i in records:
+        print(i)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--image", action='store', help="Image file/url")
-    parser.add_argument("--show", action='store_true', help="Show cars info")
+    parser.add_argument("--show", action='store_true', help="Show records info")
     parser.add_argument("--test", action='store_true', help=argparse.SUPPRESS)
 
     args = parser.parse_args()
@@ -133,4 +135,4 @@ if __name__ == '__main__':
         process_licence_plate(args.image, args.test)
 
     if args.show:
-        show_cars_info(args.test)
+        show_db_records_info(args.test)
